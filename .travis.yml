@@ -1,12 +1,15 @@
-language: python
-python:
-  - "3.5"
-cache: pip
+language: node_js
+node_js:
+  # LTS version
+  - "8.0"
+cache:
+  directories:
+    - node_modules
 install:
   # Install any dependencies required for building your site here.
   # `awscli` is required for invalidation of CloudFront distributions.
   - yarn install
-  - pip install awscli
+  - yarn install awscli
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
   - yarn run build
