@@ -9,7 +9,7 @@ install:
   # Install any dependencies required for building your site here.
   # `awscli` is required for invalidation of CloudFront distributions.
   - yarn install
-  - yarn add awscli
+  # - yarn add awscli
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
   - yarn run build
@@ -31,8 +31,8 @@ deploy:
   local_dir: build
   # Set the Cache-Control header.
   cache_control: "max-age=21600"
-after_deploy:
+# after_deploy:
   # Allow `awscli` to make requests to CloudFront.
-  - aws configure set preview.cloudfront true
+  # - aws configure set preview.cloudfront true
   # Invalidate every object in the targeted distribution.
-  - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID
+  # - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID
