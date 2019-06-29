@@ -9,7 +9,7 @@ install:
   # Install any dependencies required for building your site here.
   # `awscli` is required for invalidation of CloudFront distributions.
   - yarn install
-  - yarn install awscli
+  - yarn add awscli
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
   - yarn run build
