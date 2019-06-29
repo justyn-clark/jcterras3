@@ -12,6 +12,8 @@ install:
   # - yarn add awscli
 script:
   # Build your site (e.g., HTML, CSS, JS) here.
+  - yarn test
+  - yarn run test:coverage
   - yarn run build
 deploy:
   # Control deployment by setting a value for `on`. Setting the `branch`
@@ -28,8 +30,6 @@ deploy:
   # Name of the S3 bucket to which your site should be uploaded.
   bucket: jcterras3
   # Prevent Travis from deleting your built site so it can be uploaded.
-  endpoint: "jcterras3.s3-website-us-west-1.amazonaws.com"
-  region: "us-west-1"
   skip_cleanup: true
   # Path to a directory containing your built site.
   local_dir: build
