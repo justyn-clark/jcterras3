@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  # LTS version
-  - "8.0"
+  - node
 cache:
+  yarn: true
   directories:
     - node_modules
 install:
