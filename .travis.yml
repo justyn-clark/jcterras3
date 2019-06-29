@@ -11,32 +11,18 @@ install:
   - yarn install
   # - yarn add awscli
 script:
-  # Build your site (e.g., HTML, CSS, JS) here.
   - yarn test
-  - yarn run test:coverage
+before_deploy:
+  - yarn global add travis-ci-cloudfront-invalidation
   - yarn run build
 deploy:
-  # Control deployment by setting a value for `on`. Setting the `branch`
-  # option to `master` means Travis will only attempt a deployment on
-  # builds of your repo's master branch (e.g., after you merge a PR).
+  provider: s3
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: "jcterras3"
+  skip_cleanup: true
+  local_dir: build
   on:
     branch: master
-  provider: s3
-  # You can refer to environment variables from Travis repo settings!
-  access_key_id:
-    secure: $AWS_ACCESS_KEY_ID
-  secret_access_key:
-      secure: $AWS_SECRET_ACCESS_KEY
-  # Name of the S3 bucket to which your site should be uploaded.
-  bucket: jcterras3
-  # Prevent Travis from deleting your built site so it can be uploaded.
-  skip_cleanup: true
-  # Path to a directory containing your built site.
-  local_dir: build
-  # Set the Cache-Control header.
-  cache_control: "max-age=21600"
-# after_deploy:
-  # Allow `awscli` to make requests to CloudFront.
-  # - aws configure set preview.cloudfront true
-  # Invalidate every object in the targeted distribution.
-  # - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID
+after_deploy:
+  - travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -c $CLOUDFRONT_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST
